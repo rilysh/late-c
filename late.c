@@ -16,7 +16,7 @@
 static char rfc3986[256];
 static char html5[256];
 
-static char *encode_url(const char *url)
+static char *encode_url(char *url)
 {
     char *enc = malloc((strlen(url) * 3) + 1);
     char *tenc;
@@ -32,8 +32,8 @@ static char *encode_url(const char *url)
 
     tenc = enc;
     while (*url) {
-        if (rfc3986[*url])
-            sprintf(tenc, "%c", rfc3986[*url]);
+        if (rfc3986[(unsigned char)*url])
+            sprintf(tenc, "%c", rfc3986[(unsigned char)*url]);
         else
             sprintf(tenc, "%%%02X", *url);
         url++;
@@ -94,7 +94,7 @@ int main(int argc, char **argv)
         exit(EXIT_SUCCESS);
     }
 
-    char args[MAX_CHAR_SIZE], *lang;
+    char args[MAX_CHAR_SIZE], *lang = NULL;
     int opt, i;
 
     while ((opt = getopt(argc, argv, "l:f:")) != -1) {
